@@ -6,9 +6,9 @@ class Mydb {
   constructor() {
     this.connection = createConnection({
       host: process.env.MYSQL_HOST || "db",
-      user: process.env.MYSQL_USER || "myuser",
+      user: process.env.MYSQL_USER || "root",
       password: process.env.MYSQL_PASSWORD || "123",
-      database: process.env.MYSQL_DATABASE || "mydb",
+      database: process.env.MYSQL_DATABASE || "hospital",
       port: 3306,
     });
   }
