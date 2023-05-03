@@ -1,21 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const app = express();
+// const cors = require('cors');
+const {corsOptions} = require('./config/cors');
+const {
+    userRouter,
+} = require("./route/index");
+const dotenv = require('dotenv');
+dotenv.config();
 
-const corsOptions = {
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-    exposedHeaders: ["Authorization"],
-};
+const app = express();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+//route
+app.use("/user", userRouter);
   
-app.listen(4000, function() {
-  console.log('Server listening on port 4000');
+app.listen(process.env.PORT, () => {
+  console.log('Server listening on port', process.env.PORT);
 });
