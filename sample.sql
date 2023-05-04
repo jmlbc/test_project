@@ -2,6 +2,21 @@ DROP DATABASE IF EXISTS `hospital`;
 CREATE DATABASE IF NOT EXISTS `hospital`;
 USE `hospital`;
 
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `username` varchar(20) NOT NULL COMMENT '아이디',
+  `password` varchar(20) NOT NULL COMMENT '비밀번호',
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='사용자 정보';
+
+INSERT INTO user(username, password) VALUES('jm', "123");
+
+DROP TABLE IF EXISTS `logout_list`;
+CREATE TABLE IF NOT EXISTS `logout_list` (
+  `token` varchar(200) NOT NULL COMMENT 'access(refresh)Token',
+  PRIMARY KEY (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='로그아웃 리스트';
+
 DROP TABLE IF EXISTS `patient`;
 CREATE TABLE IF NOT EXISTS `patient` (
   `patientId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '환자 ID',
