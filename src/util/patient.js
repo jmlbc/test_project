@@ -1,4 +1,5 @@
 const {Mydb} = require("../db/connect");
+const {simpleEncrypt, simpleDecrypt} = require("../util/crypto");
 
 const createPatient = async ({name, ssn, birthDate, cellPhone, phone, email, addresses, images}) => {
     const db = await new Mydb();
@@ -9,17 +10,16 @@ const createPatient = async ({name, ssn, birthDate, cellPhone, phone, email, add
         const sql1 = `INSERT INTO patient(name, ssn, birthDate, cellPhone, phone, email, createdAt) VALUES(?, ?, ?, ?, ?, ?, ?);`
         const sql2 = `INSERT INTO patient_address(patientId, address1, address2, createdAt) VALUES(?, ?, ?, ?);`
         const sql3 = `INSERT INTO patient_image(patientId, imageUrl, imageSize, imageTxt, createdAt) VALUES(?, ?, ?, ?, ?);`
-        const params1 = [name, ssn, birthDate, cellPhone, phone, email, now]
+        const params1 = [name, simpleEncrypt(ssn), birthDate, cellPhone, phone, email, now]
         const query1 = await db.query(sql1, params1);
 
         const params2 = [query1.insertId, addresses[0].address1, addresses[0].address2, now]
         const params3 = [query1.insertId, images[0].imageUrl, images[0].imageSize, images[0].imageTxt, now]
-        console.log(params2)
-        console.log(params3)
         const query2 = await db.query(sql2, params2);
         const query3 = await db.query(sql3, params3);
 
         await connection.commit();
+        return true
     }
     catch (err) {
         console.err(err)
@@ -54,6 +54,7 @@ const searchPatient = async (id) => {
             imageSize: query3[0].imageSize,
             imageTxt: query3[0].imageTxt,
         }]
+        query1[0].ssn = simpleDecrypt(query1[0].ssn)
         query1[0].addresses = address
         query1[0].images = images
         console.log(query1)
@@ -75,11 +76,11 @@ const updatePatient = async (id, data) => {
     const connection = await db.getConn();
     await connection.beginTransaction()
     try{
-        const sql1 = `update patient SET name=? where patientId=?;`
+        const sql1 = `update patient SET name=?, ssn=?, birthDate=?, cellPhone=?, phone=?, email=? where patientId=?;`
         const sql2 = `update patient_address SET address1="?", address2="?" where patientId=?;`
         const sql3 = `update patient_image SET imageUrl="?", imageSize="?", imageTxt="?" where patientId=?;`
 
-        const params1 = [name, id]
+        const params1 = [name, simpleEncrypt(ssn), birthDate, cellPhone, phone, email, id]
         const params2 = [addresses[0].address1, addresses[0].address2, id]
         const params3 = [images[0].imageUrl, images[0].imageSize, images[0].imageTxt, id]
         const query1 = await db.query(sql1, params1);

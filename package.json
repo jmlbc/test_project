@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/index.js",
-    "up": "docker run --name mydb mysql"
+    "build": "docker build mydb .",
+    "db": "docker run --name mydb mydb",
+    "up": "npm run build && npm run db && npm run start"
   },
   "repository": {
     "type": "git",
