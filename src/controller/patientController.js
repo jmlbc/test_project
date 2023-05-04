@@ -10,7 +10,7 @@ const create = async (req, res) => {
   const {accessToken} = req.cookies;
   const data = req.body;
   // 유효한 토큰인지 확인
-  if(!await tokenValidCheck(accessToken)){
+  if(accessToken === undefined || !await tokenValidCheck(accessToken)){
     let msg = {
         code: 401,
         message: "Unauthorized",
@@ -43,7 +43,7 @@ const search = async (req, res) => {
     const {accessToken} = req.cookies;
     const id = req.params.id;
     // 유효한 토큰인지 확인
-    if(!await tokenValidCheck(accessToken)){
+    if(accessToken === undefined || !await tokenValidCheck(accessToken)){
       let msg = {
           code: 401,
           message: "Unauthorized",
@@ -78,7 +78,7 @@ const update = async (req, res) => {
     const id = req.params.id;
     const data = req.body;
     // 유효한 토큰인지 확인
-    if(!await tokenValidCheck(accessToken)){
+    if(accessToken === undefined || !await tokenValidCheck(accessToken)){
       let msg = {
           code: 401,
           message: "Unauthorized",
@@ -110,7 +110,7 @@ const del = async (req, res) => {
     const {accessToken} = req.cookies;
     const id = req.params.id;
     // 유효한 토큰인지 확인
-    if(!await tokenValidCheck(accessToken)){
+    if(accessToken === undefined || !await tokenValidCheck(accessToken)){
       let msg = {
           code: 401,
           message: "Unauthorized",

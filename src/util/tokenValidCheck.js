@@ -5,6 +5,7 @@ const tokenValidCheck = async (token) => {
     
     const validResult = await db
     .query(`select * from logout_list where token=?;`, [token])
+
     if (validResult.length > 0){
         return false;
     }
