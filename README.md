@@ -1,7 +1,23 @@
 # 프로젝트 실행방법
+> 환경 변수 설정(파일명 변경)
 ```
+.env.example => .env
+```
+> docker 설치
+```
+mysql 사용을 위함
+```
+
+> 프로젝트 시작(mysql 실행)
+```
+npm run i
 npm run up
 ```
+> 프로젝트 시작(express 서버 실행) - 새 터미널 필요
+```
+npm run start
+```
+
 * * *
 
 # 디렉토리 구조
